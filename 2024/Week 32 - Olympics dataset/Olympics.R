@@ -52,3 +52,4 @@ vis <- function(data, seas = c("Summer", "Winter")){
 }
 
 vis(oly, 'Winter')
+vis(oly, 'Summer')
