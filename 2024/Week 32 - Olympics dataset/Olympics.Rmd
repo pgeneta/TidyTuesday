@@ -25,7 +25,7 @@ theme_set(theme_minimal())
 df <- oly %>% 
   select(id, name, noc, year, season, city) %>% 
   group_by(id, name) %>% 
-  unique()
+  unique() 
 ```
 
 
