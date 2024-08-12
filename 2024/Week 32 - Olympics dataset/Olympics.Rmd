@@ -114,4 +114,55 @@ vis(oly, 'Winter')
 ```{r}
 vis(oly, 'Summer')
 ```
+# Box plot of Athlete's height by sport
+
+Use the function to visualise height or weight difference over the years in the Olympics.
+
+```{r}
+
+boxplot <- function(sports, gen, metric = c('height', 'weight')){
+  
+  df <- olympics %>% 
+    mutate(sex = ifelse(sex == 'M', "Male", "Female"))
+  
+  if(metric == 'height'){
+  fig <- df %>% 
+    filter(
+      sport == sports,
+      sex == gen
+    ) %>% 
+    ggplot(aes(x = year, y = height))+
+    geom_boxplot(aes(group = factor(year)))+
+    geom_smooth(method = 'loess', formula = 'y~x', se = FALSE)+
+    scale_x_continuous(breaks = 193:201 *10) +
+    labs(x = NULL, y = 'Height (cm)',
+         title = paste0('Heights of ', gen, ' ', sports, ' players in the Olympics'),
+         caption = 'Source: Kaggle Olympics history data')+
+    theme_bw()
+  
+  }else{
+    fig <- df %>% 
+    filter(
+      sport == sports,
+      sex == gen
+    ) %>% 
+    ggplot(aes(x = year, y = weight))+
+    geom_boxplot(aes(group = factor(year)))+
+    geom_smooth(method = 'loess', formula = 'y~x', se = FALSE)+
+    scale_x_continuous(breaks = 193:201 *10) +
+    labs(x = NULL, y = 'Weight (kg)',
+         title = paste0('Weights of ', gen, ' ', sports, ' players in the Olympics'),
+         caption = 'Source: Kaggle Olympics history data')+
+      theme_bw()
+  }
+  return (fig)  
+}
+
+boxplot("Basketball", "Male", 'height')
+
+
+```
+
+
+
 
