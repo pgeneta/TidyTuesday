@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #Load Libraries and dataset
 library(tidyverse)
+library(plotly)
+library(ggplot2)
 library(tidytuesdayR)
 
 tuesdata <- tt_load(2024, week = 32)
@@ -27,7 +29,7 @@ df <- oly %>%
 ```
 
 
-#Function to visualise participation in the Olympics
+### Function to visualise participation in the Olympics
 ```{r}
 vis <- function(data, seas = c("Summer", "Winter")){
   top_noc <- data %>% 
@@ -67,7 +69,8 @@ vis <- function(data, seas = c("Summer", "Winter")){
                    stackgroup = 'one',
                    hoverinfo = 'text',
                    hovertext = paste0("Country: ", df$noc,
-                                  "<br>Count: ", df$count) ) %>% 
+                                  "<br>Count: ", df$count,
+                                  "<br>Year:", df$year) ) %>% 
   layout(title = paste0("Top 5 country participation - ", seas, " Olympics"),
          yaxis = list(title = "Total Athletes"),
          xaxis = list(title = "Year"),
@@ -79,7 +82,7 @@ vis <- function(data, seas = c("Summer", "Winter")){
 ```
 
 
-# Winter Olympics visual
+## Winter Olympics visual
 ```{r}
 vis(oly, 'Winter')
 
@@ -114,7 +117,7 @@ vis(oly, 'Winter')
 ```{r}
 vis(oly, 'Summer')
 ```
-# Box plot of Athlete's height by sport
+## Box plot of Athlete's height by sport
 
 Use the function to visualise height or weight difference over the years in the Olympics.
 
@@ -122,7 +125,7 @@ Use the function to visualise height or weight difference over the years in the 
 
 boxplot <- function(sports, gen, metric = c('height', 'weight')){
   
-  df <- olympics %>% 
+  df <- oly %>% 
     mutate(sex = ifelse(sex == 'M', "Male", "Female"))
   
   if(metric == 'height'){
@@ -136,7 +139,7 @@ boxplot <- function(sports, gen, metric = c('height', 'weight')){
     geom_smooth(method = 'loess', formula = 'y~x', se = FALSE)+
     scale_x_continuous(breaks = 193:201 *10) +
     labs(x = NULL, y = 'Height (cm)',
-         title = paste0('Heights of ', gen, ' ', sports, ' players in the Olympics'),
+         title = paste0('Heights of ', gen, ' ', sports, ' athletes in the Olympics'),
          caption = 'Source: Kaggle Olympics history data')+
     theme_bw()
   
@@ -151,18 +154,22 @@ boxplot <- function(sports, gen, metric = c('height', 'weight')){
     geom_smooth(method = 'loess', formula = 'y~x', se = FALSE)+
     scale_x_continuous(breaks = 193:201 *10) +
     labs(x = NULL, y = 'Weight (kg)',
-         title = paste0('Weights of ', gen, ' ', sports, ' players in the Olympics'),
+         title = paste0('Weights of ', gen, ' ', sports, ' athletes in the Olympics'),
          caption = 'Source: Kaggle Olympics history data')+
       theme_bw()
   }
   return (fig)  
 }
 
-boxplot("Basketball", "Male", 'height')
-
-
 ```
 
+```{r}
+boxplot("Basketball", "Male", 'height')
+```
+
+```{r}
+boxplot("Gymnastics", "Female", 'weight')
+```
 
 
 
