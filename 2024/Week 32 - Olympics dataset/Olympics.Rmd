@@ -171,5 +171,8 @@ boxplot("Basketball", "Male", 'height')
 boxplot("Gymnastics", "Female", 'weight')
 ```
 
+```{r}
+boxplot("Swimming", "Male", 'height')
+```
 
 
