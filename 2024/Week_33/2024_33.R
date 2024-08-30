@@ -36,10 +36,14 @@ colnames(fairs) %>% sort()
 
 ## 4. TIDYDATA ----
 
-df_filtered <- fairs %>% select(name_of_exposition, category, visitors) %>% 
+df_filtered <- fairs %>% 
+  select(name_of_exposition, category, visitors) %>% 
   filter(!is.na(visitors),
-         visitors >=10 ) %>% 
-  arrange(desc(visitors))
+         visitors >=10 ) |> 
+  distinct(name_of_exposition, .keep_all = TRUE) |> 
+  arrange(desc(visitors)) |> 
+  mutate(name_of_exposition = recode(name_of_exposition,
+                                     "Exposition Internationale des Arts et Techniques dans la Vie Moderne / Paris International Exposition" = "Paris International Exposition"))
 
 # 5. VISUALIZATION ---- 
 
@@ -52,8 +56,12 @@ text_colour     <- "gray20"
 
 
 ### |-  5.2 TITLES AND CAPTIONS ----
-title_text    <- str_glue("Number of Visitors across world fairs (>= 10M)") 
-caption_text  <- str_glue("#TidyTuesday: { 2024 } Week { 33 } &bull; Source: List of world expositions (Wikipedia)")  
+tt <- str_glue("#TidyTuesday: { 2024 } Week { 33 } &bull; Source: List of world expositions (Wikipedia) <br>")
+linkedin <- str_glue("<span style='font-family:fa6-brands'>&#xf08c;</span> paul-geneta")
+github <- str_glue("<span style='font-family:fa6-brands'>&#xf09b;</span> pgeneta")
+
+title_text    <- str_glue("Number of Visitors across world fairs (≥ 10M)") 
+caption_text  <- str_glue("{tt} {linkedin} &bull; {github}")  
 
 
 ### |-  5.3 FONTS ----
@@ -77,7 +85,7 @@ theme_update(
     color              = title_colour,
     face               = "bold",
     lineheight         = 0.85,
-    hjust = 0.5,
+    hjust              = 0.5,
     margin             = margin(t = 5, b = 10)),
   
   plot.subtitle        = element_markdown(
@@ -92,8 +100,8 @@ theme_update(
     family             = 'caption',
     color              = caption_colour,
     lineheight         = 0.1,
-    hjust              = -1.5,
-    halign             = 0.5,
+    hjust              = -.45,
+    halign             = 0,
     margin             = margin(t = 1, b = 1)),
   axis.title.x          = element_text(margin = margin(3, 0, 0, 0), size = rel(1), color = text_colour, family = "text", face = "bold", hjust = 0.5),
   axis.text             = element_text(size = rel(0.8), color = text_colour, family = "text"),

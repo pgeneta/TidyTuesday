@@ -65,13 +65,14 @@ text_colour <- "#0C1618"
 
 
 ### 5.2 TITLES AND CAPTION ----
-tt <- str_glue("#TidyTuesday: { 2024 } Week { 35 } <br> Source: Kaggle: Power Rangers Season & Episodes <br>")
+tt <- str_glue("#TidyTuesday: { 2024 } Week { 35 } <br>")
 linkedin <- str_glue("<span style='font-family:fa6-brands'>&#xf08c;</span> paul-geneta")
 github <- str_glue("<span style='font-family:fa6-brands'>&#xf09b;</span> pgeneta")
 
-title_text <- str_glue("Power Ranger ratings timeseries")
+title_text <- str_glue("Power Rangers IMDB Ratings")
 subtitle_text <- str_glue("Season 1 — Season 28")
 caption_text <- str_glue("{tt} {linkedin} &bull; {github}")
+source_text <- str_glue("Source: Kaggle: Power Rangers Season & Episodes")
 
 ### 5.3 FONTS ----
 font_add("fa6-brands", "fonts/6.4.2/Font Awesome 6 Brands-Regular-400.otf")
@@ -108,8 +109,8 @@ theme_update(
     family             = "caption",
     color              = caption_colour,
     lineheight         = 0.3,
-    hjust              = -.15,
-    halign             = 0,
+    hjust              = c(-.1,-2.1),
+    halign             = c(0,0),
     margin             = margin(t = 5, b = 0)
   ),
   axis.title.x = element_text(margin = margin(10, 0, 0, 0), size = rel(1.5), color = text_colour, family = "text", face = "bold", hjust = 0.5),
@@ -181,6 +182,5 @@ labs(x = "Year released",
      y = "IMDB rating",
      title = title_text,
      subtitle = subtitle_text,
-     caption = caption_text)
-
-
+     caption = c(caption_text, source_text)
+)     

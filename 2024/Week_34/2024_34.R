@@ -21,6 +21,8 @@ tt <- tidytuesdayR::tt_load(
 )
 
 monarchs <- tt$english_monarchs_marriages_df |> clean_names()
+# monarchs <- 
+  # readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-08-20/english_monarchs_marriages_df.csv') |> clean_names()
 
 tidytuesdayR::readme(tt)
 rm(tt)
@@ -73,12 +75,17 @@ caption_colour <- "gray40"
 text_colour <- "gray20"
 
 ### 5.2 TITLES AND CAPTION ----
+tt <- str_glue("#TidyTuesday: { 2024 } Week { 34 } <br>")
+linkedin <- str_glue("<span style='font-family:fa6-brands'>&#xf08c;</span> paul-geneta")
+github <- str_glue("<span style='font-family:fa6-brands'>&#xf09b;</span> pgeneta")
+
 title_text <- str_glue("Age differences between Kings and Consorts (≥ 10 years)")
 subtitle_text <- str_glue(
   "insert subtitle.<br>",
   "insert subtitle.<br>"
 )
-caption_text <- str_glue("#TidyTuesday: { 2024 } Week { 34 } &bull; Source: List of Monarchs by marriage")
+caption_text <- str_glue("{tt} {linkedin} &bull; {github}")
+source_text <- str_glue("Source: List of Monarchs by marriage")
 
 ### 5.3 FONTS ----
 font_add("fa6-brands", "fonts/6.4.2/Font Awesome 6 Brands-Regular-400.otf")
@@ -108,8 +115,8 @@ theme_update(
     family             = 'caption',
     color              = caption_colour,
     lineheight         = 0,
-    hjust              = -1.1,
-    halign             = 0.5
+    hjust              = c(-.65,-4.3),
+    halign             = c(0,0)
     ),
   axis.title.x = element_text(size = rel(2), color = text_colour, family = "text", face = "bold", hjust = 0.3),
   axis.text = element_text(size = rel(1.5), color = text_colour, family = "text"),
@@ -137,7 +144,7 @@ plot_data |>
     title = title_text,
     x = "Age Difference",
     y = "",
-    caption = caption_text
+    caption = c(caption_text, source_text)
   )
 
   
