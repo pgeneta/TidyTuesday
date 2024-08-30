@@ -12,10 +12,6 @@ camcorder::gg_record(
   height = 5,
   units  = "in",
   dpi    = 320)
-# 
-# ### 1.2 RESOLUTION ----
-# showtext_opts(dpi = 320, regular.wt = 300, bold.wt = 800)
-
 
 ## 2. READ IN THE DATA =========================================================
 tt <- tidytuesdayR::tt_load(
@@ -69,11 +65,13 @@ text_colour <- "#0C1618"
 
 
 ### 5.2 TITLES AND CAPTION ----
+tt <- str_glue("#TidyTuesday: { 2024 } Week { 35 } <br> Source: Kaggle: Power Rangers Season & Episodes <br>")
+linkedin <- str_glue("<span style='font-family:fa6-brands'>&#xf08c;</span> paul-geneta")
+github <- str_glue("<span style='font-family:fa6-brands'>&#xf09b;</span> pgeneta")
+
 title_text <- str_glue("Power Ranger ratings timeseries")
-subtitle_text <- str_glue(
-  "Season 1 — Season 28"
-)
-caption_text <- str_glue("#TidyTuesday: { 2024 } Week { 35 } &bull; Source: Kaggle: Power Rangers Dataset <br>")
+subtitle_text <- str_glue("Season 1 — Season 28")
+caption_text <- str_glue("{tt} {linkedin} &bull; {github}")
 
 ### 5.3 FONTS ----
 font_add("fa6-brands", "fonts/6.4.2/Font Awesome 6 Brands-Regular-400.otf")
@@ -88,8 +86,6 @@ theme_set(theme_minimal(base_size = 15, base_family = "text"))
 
 theme_update(
   # Format titles and axis titles----------------
-  #plot.title.position = "plot",
-  #plot.caption.position = "plot",
   plot.title = element_markdown(
     size               = rel(2.5),
     family             = "title",
@@ -108,13 +104,13 @@ theme_update(
     margin             = margin(t = 0, b = 10)
   ),
   plot.caption = element_markdown(
-    size               = rel(1.2),
+    size               = rel(1.1),
     family             = "caption",
     color              = caption_colour,
     lineheight         = 0.3,
     hjust              = -.15,
-    halign             = 0.1,
-    margin             = margin(t = 3, b = 0)
+    halign             = 0,
+    margin             = margin(t = 5, b = 0)
   ),
   axis.title.x = element_text(margin = margin(10, 0, 0, 0), size = rel(1.5), color = text_colour, family = "text", face = "bold", hjust = 0.5),
   axis.title.y = element_text(margin = margin(0, 10, 0, 0), size = rel(1.5), color = text_colour, family = "text", face = "bold", hjust = 0.5),
@@ -124,38 +120,21 @@ theme_update(
   # Format background colours------------
   panel.background = element_rect(fill = bkg_colour, color = bkg_colour),
   plot.background = element_rect(fill = bkg_colour, color = bkg_colour),
-  # strip.background      = element_rect(fill = bkg_colour, color = bkg_colour),
 
   # Format the grid------------------------
   panel.grid.minor.x = element_blank(),
   panel.grid.major.x = element_line(linetype = "dotted", linewidth = 0.1, color = "gray40"),
   panel.grid.minor.y = element_blank(),
   panel.grid.major.y = element_blank(),
-  # axis.ticks            = element_blank(),
 
   # Format legend----------------------
   legend.position = "plot",
   legend.background = element_rect(fill = bkg_colour, color = bkg_colour),
-  # legend.text = element_text(size = 15, face = "bold", color=text_colour),
-  # legend.justification = "center",
   legend.title = element_text(
     family = "serif",
     color = text_colour,
     size = 20, face = "bold"
   ),
-
-
-  # If using facet wrap/grid - theme for that
-  # strip.text            = element_textbox(size     = rel(1.1),
-  #                                         color    = text_colour,
-  #                                         family   = 'text',
-  #                                         hjust    = 0.5,
-  #                                         halign   = 0.5,
-  #                                         r        = unit(5, "pt"),
-  #                                         width    = unit(5.5, "npc"),
-  #                                         padding  = margin(0, 0, 0, 0),
-  #                                         margin   = margin(0, 20, 0, -1),
-  #                                         fill     = "transparent"),
 )
 
 ### 5.6 FINAL PLOT =============================================================
@@ -172,39 +151,36 @@ full |>
               se = FALSE,
               color = '#755C1B',
               linewidth = 0.7)+
-  geom_vline(xintercept = 2002, linetype = "dashed")+
-  geom_vline(xintercept = 2011, linetype = "dashed")+
+  geom_vline(xintercept = 2002, linetype = "dashed", color = "gray40")+
+  geom_vline(xintercept = 2011, linetype = "dashed", color = "gray40")+
   annotate("text", 
            x = 1997, 
-           y = 11, 
+           y = 10, 
            label = "Producer: Saban",
            color = "#755C1B", 
            family = 'sans',
            size = 8)+
   annotate("text", 
            x = 2006.5, 
-           y = 11, 
+           y = 10, 
            label = "Producer: Disney",
            color = "#755C1B", 
            family = 'sans',
            size = 8)+
   annotate("text", 
            x = 2016, 
-           y = 11, 
+           y = 10, 
            label = "Producer: Saban Brands",
            color = "#755C1B", 
            family = 'sans',
            size = 8)+
-# SCALES
-#scale_y_continuous(limits = c(0,10))+
+scale_y_continuous(limits = c(5,10.1),
+                   breaks = c(5:10))+
 # LABELS
 labs(x = "Year released",
      y = "IMDB rating",
      title = title_text,
      subtitle = subtitle_text,
      caption = caption_text)
-# FACETS (if applicable)
 
-# THEME
 
-ggsave(str_glue("2024/Week_35/Week_35.png"))
