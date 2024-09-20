@@ -93,7 +93,7 @@ text_colour <- "#576CA8"
 
 
 ### 5.2 TITLES AND CAPTION ----
-tt <- str_glue("#TidyTuesday: { 2024 } Week { 38 }")
+tt <- str_glue("#TidyTuesday: { 2024 } Week { 38 } &bull; ")
 linkedin <- str_glue("<span style='font-family:fa6-brands'>&#xf08c;</span> paul-geneta")
 github <- str_glue("<span style='font-family:fa6-brands'>&#xf09b;</span> pgeneta")
 
